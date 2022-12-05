@@ -101,9 +101,9 @@ const Menus: React.FC = () => {
     };
 
     return <div className='menu'>
-        <div className='menu-name'>
+        <div className='menu-left'>
             个人网站<span>{windowSize.innerWidth}</span></div>
-        <div className='menu-fare'>
+        <div className='menu-right'>
             {/* <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} /> */}
             {/* <div className='suspend'><StepForwardOutlined />首页</div>
             <div className='suspend'>关于</div>
@@ -127,7 +127,7 @@ const MenuBar: React.FC = (props) => {
     //   Link
     // </Button>
     if (innerWidth > 700) {
-        return <div style={{overflowX:"hidden"}}>
+        return <>
             <div className='suspend'><IconFont type="blog-sousuo" />搜索</div>
             <div className='suspend'><IconFont type="blog-zhuye1" />首页</div>
             <div className='suspend'><IconFont type="blog-aixin" />关于</div>
@@ -140,7 +140,7 @@ const MenuBar: React.FC = (props) => {
                     </Space>
                 </a>
             </Dropdown>
-        </div>
+        </>
     }
     return <>
         <IconFont type="blog-sousuo" style={{ fontSize: '18px', color: '#000',marginRight:"1vw" }}/>

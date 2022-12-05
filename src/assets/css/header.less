@@ -20,35 +20,29 @@
   height: 50px;
   padding: 0 16px;
   background-color: rgba(255, 255, 255, 0.8);
-
   position: fixed;
   top: 0;
   // color: white;.
   z-index: 1;
-  .menu-name,
-  .menu-fare {
-    padding: 0 50px;
-  }
-
-  .menu-name {
-    display: flex;
-  }
-
-  .menu-fare {
-    display: flex;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    div {
-      // color: white;
-    }
-  }
-
   .menu-fare > div {
     padding-right: 16px;
   }
 }
+.menu-left{
+  position: absolute;
+  top: 16px;
+  left: 20px;
+}
+.menu-right{
+  position: absolute;
+  top: 16px;
+  right: 60px;
+  display: flex;
+  .suspend{
+    margin-right: 14px;
+  }
+}
+
 
 .suspend .anticon {
   padding-right: 6px;
