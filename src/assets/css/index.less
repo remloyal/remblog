@@ -1,3 +1,5 @@
+@import url(./header.less);
+
 .blog {
     width: 100%;
     height: 100%;
@@ -25,93 +27,3 @@
     }
 }
 
-.menu {
-    width: 100%;
-    height: 50px;
-    padding: 0 16px;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    // color: white;
-
-    .menu-name,
-    .menu-fare {
-        padding: 0 50px;
-    }
-
-    .menu-name {
-        display: flex;
-    }
-
-    .menu-fare {
-        display: flex;
-        font-size: 14px;
-
-        div {
-            // color: white;
-        }
-    }
-
-    .menu-fare>div {
-        padding-right: 16px;
-    }
-}
-
-.suspend .anticon {
-    padding-right: 6px;
-    color: black;
-    font-size: 14px;
-}
-
-.suspend::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: #003cff;
-    transition: all 0.1s ease-in-out;
-}
-
-.suspend:hover::after {
-    width: 100%;
-}
-
-.ant-space-item::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: #003cff;
-    transition: all 0.2s ease-in-out;
-}
-
-.ant-space-item:hover::after {
-    width: 100%;
-}
-
-.suspend:hover {
-    color: rgb(252, 112, 112) !important;
-}
-
-// 头部中间
-.site-info {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 30%;
-    width: 50%;
-    margin: 0 0 0 -25%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    img{
-        border-radius: 50%;
-    }
-    div{
-        font-size: 1em;
-        color:white;
-    }
-}
