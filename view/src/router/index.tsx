@@ -17,10 +17,10 @@ const routeConfig = [
   {
     path: '/',
     element: <Index />,
-    redirect:'index',
+    redirect: 'index',
     children: [
       {
-        path: 'index/',
+        path: '',
         element: <Indexs />,
       },
       {
