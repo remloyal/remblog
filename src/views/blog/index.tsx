@@ -5,6 +5,7 @@ import Main from "./main";
 import Float from "./Float";
 import { ConfigProvider, Button, theme } from 'antd';
 import Menu from "../header/Menu";
+import { Outlet } from "react-router-dom";
 
 const Index = () => {
     return <div className="blog">
@@ -17,6 +18,7 @@ const Index = () => {
             <Main />
             <Footer />
             <Float />
+            {/* <Outlet ></Outlet> */}
         </ConfigProvider>
     </div>
 }
