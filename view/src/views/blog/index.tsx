@@ -6,6 +6,7 @@ import Float from "./Float";
 import { ConfigProvider, Button, theme } from 'antd';
 import Menu from "../header/Menu";
 import { Outlet } from "react-router-dom";
+import Snowflake from '../../components/specialEffects/snowflake'
 
 const Index = () => {
     return <div className="blog">
@@ -13,6 +14,7 @@ const Index = () => {
             theme={{
                 algorithm: theme.darkAlgorithm,
             }}>
+            {/* <Snowflake /> */}
             <Menu />
             <Header />
             <Main />

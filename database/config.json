@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "egg",
+    "password": "egg",
+    "database": "egg",
+    "host": "150.158.34.247",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "egg",
+    "password": "egg",
+    "database": "egg",
+    "host": "150.158.34.247",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "egg",
+    "password": "egg",
+    "database": "egg",
+    "host": "150.158.34.247",
+    "dialect": "mysql"s
+  }
+}

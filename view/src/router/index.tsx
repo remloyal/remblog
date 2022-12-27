@@ -9,7 +9,7 @@ import Admin from "../views/admin/admin"
 import Index from "../views/blog"
 import { lazy } from "react"
 // React 组件懒加载
-const Indexs  = lazy(()=>import('../views/main/index'));
+const Indexs = lazy(() => import('../views/main/Index'));
 const Details = lazy(() => import('../views/main/Details'));
 const Tag = lazy(() => import('../views/main/Tag'));
 
