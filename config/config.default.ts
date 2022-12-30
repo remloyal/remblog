@@ -1,13 +1,13 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
-// import YAML from "yaml";
-// import fs from "fs";
+import YAML from "yaml";
+import fs from "fs";
 import configs from "../config";
 
 
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
-  // var buffer = fs.readFileSync('config.yml', 'utf8');
-  // var configes = YAML.parse(buffer);
+  let buffer = fs.readFileSync('config.yml', 'utf8');
+  let configes = YAML.parse(buffer);
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1670514374639_9721';
@@ -31,7 +31,8 @@ export default (appInfo: EggAppInfo) => {
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
-    allocation: configs
+    allocation: configs,
+    setting:configes
   };
 
   // console.log(config);

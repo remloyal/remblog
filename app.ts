@@ -45,8 +45,8 @@ module.exports =  class AppBootHook {
     // 应用已经启动完毕
 
     // console.log(this.app.config);
-    const ctx = await this.app.createAnonymousContext();
-    await ctx.service.Biz.request();
+    // const ctx = await this.app.createAnonymousContext();
+    // await ctx.service.Biz.request();
     
   }
 

@@ -7,13 +7,20 @@ export default class image extends Controller {
     // ctx.logger.info('some request data: %j', ctx.request.body);
     // console.log(ctx.app.config.allocation);
     let rValue = image[rand];
-    const result = await ctx.curl(rValue,{
-      method: 'get', // 设置请求方式 默认是GET
-      dataType: 'json',
-      // contentType: 'json', // 默认是 form
-    });
-    console.log(result.headers.location);
+    try {
+      
+      const result = await ctx.curl(rValue,{
+        method: 'get', // 设置请求方式 默认是GET
+        // dataType: 'json',
+        // contentType: 'json', // 默认是 form
+      });
+      result.headers.location ? rValue = result.headers.location : rValue ;
+      console.log('获取图片数据',result.headers.location);
+    } catch (error) {
+      console.log(error);
+      
+    }
     
-    ctx.body = [rValue,result.headers.location];
+    ctx.body = [rValue];
   }
 }
