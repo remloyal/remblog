@@ -1,13 +1,20 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
+// import YAML from "yaml";
+// import fs from "fs";
+import configs from "../config";
+
 
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
-
+  // var buffer = fs.readFileSync('config.yml', 'utf8');
+  // var configes = YAML.parse(buffer);
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1670514374639_9721';
 
   // add your egg config in here
+  // console.log(configes);
+
   config.middleware = [];
   config.security = {
     csrf: {
@@ -24,7 +31,9 @@ export default (appInfo: EggAppInfo) => {
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
+    allocation: configs
   };
+
   // console.log(config);
   config.sequelize = {
     dialect: 'mysql',
@@ -34,10 +43,38 @@ export default (appInfo: EggAppInfo) => {
     password: 'egg',
     database: 'egg',
     default: {
-      underscored: true, 
+      underscored: true,
       freezeTableName: true
     }
   };
+
+  config.logger = {
+    level: 'DEBUG',
+    consoleLevel: 'DEBUG',
+  };
+
+  // config.customLogger = {
+  //   xxLogger: {
+  //     file: path.join(appInfo.root, 'logs/xx.log'),
+  //     formatter:(meta)=> {
+  //       return `[${meta.date}] ${meta.message}`;
+  //     },
+  //     // ctx logger
+  //     contextFormatter:(meta)=> {
+  //       return `[${meta.date}] [${meta.ctx.method} ${meta.ctx.url}] ${meta.message}`;
+  //     },
+  //   },
+  // };
+  // config.logger = {
+  //   consoleLevel: 'DEBUG',
+  //   // @ts-ignore
+  //   contextFormatter: (meta: any) => {
+  //     if (!meta) return '';
+  //     const prefix = chalk.green(`[${meta.date}] [${meta.level}] [${meta.pid}]`);
+  //     return prefix + ' ' + meta.message;
+  //   },
+  // }
+
   // the return config will combines to EggAppConfig
   return {
     ...config,

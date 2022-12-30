@@ -1,0 +1,32 @@
+rxmqtt:
+  host:     127.0.0.1
+  port:     11883
+  user:     testuser
+  pwd: "123456"
+  id: "this_is_test_2000804_nodejs_water"
+  clean:    true
+dbsql:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  pwd: "123456"
+  database: testdb
+redis: 
+  host:     127.0.0.1
+  port:     7001
+  pwd:  123456
+  index:     0
+http: 8088
+rpcUrl: 127.0.0.1:18885
+enableMqtt: true
+enableDB: true
+enableRedis: true
+enableWS: true
+enableRPC: false
+offlineTimeout: 90000
+cacheInterval: 10000
+# 测试
+image:
+  - 'https://www.dmoe.cc/random.php'
+  - 'https://service-5z0sdahv-1306777571.sh.apigw.tencentcs.com/release/'
+  - 'https://img.paulzzh.com/touhou/random'
