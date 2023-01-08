@@ -7,8 +7,8 @@ export default class image extends Controller {
     // ctx.logger.info('some request data: %j', ctx.request.body);
     // console.log(ctx.app.config.allocation);
     let rValue = image[rand];
+    console.log('获取数据',rValue);
     try {
-      
       const result = await ctx.curl(rValue,{
         method: 'get', // 设置请求方式 默认是GET
         // dataType: 'json',
@@ -21,6 +21,9 @@ export default class image extends Controller {
       
     }
     
-    ctx.body = [rValue];
+    ctx.body = {
+      data:rValue,
+      code:200
+    };
   }
 }

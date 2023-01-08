@@ -1,211 +1,137 @@
+/* eslint-disable eqeqeq */
+/**axios封装
+ * 请求拦截、相应拦截、错误统一处理
+ */
 import axios from "axios";
+import QS from "qs";
+import { message } from "antd";
 
-axios.defaults.timeout = 100000;
-// axios.defaults.baseURL = "http://test.mediastack.cn/";
-// axios.defaults.withCredentials = true
-/**
- * http request 拦截器
- */
+// 环境的切换
+// if (process.env.NODE_ENV == "development") {
+//   axios.defaults.baseURL = "http://127.0.0.1:7001";
+// } else if (process.env.NODE_ENV == "debug") {
+//   axios.defaults.baseURL = "";
+// } else if (process.env.NODE_ENV == "production") {
+//   axios.defaults.baseURL = "http://127.0.0.1:7001";
+// }
+const baseURL = "http://127.0.0.1:7001/";
+// 请求超时时间
+// axios.defaults.timeout = 10000;
+
+// post请求头
+axios.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded;charset=UTF-8";
+
+// 请求拦截器
 axios.interceptors.request.use(
-    (config) => {
-        config.data = JSON.stringify(config.data);
-        config.headers = {
-            "Content-Type": "application/json",
-        };
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
+  (config) => {
+    // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
+    // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
+    // const token = store.state.token;
+    // token && (config.headers.Authorization = token);
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
 );
 
-/**
- * http response 拦截器
- */
+// 响应拦截器
 axios.interceptors.response.use(
-    (response) => {
-        if (response.data.errCode === 2) {
-            console.log("过期");
-        }
-        return response;
-    },
-    (error) => {
-        console.log("请求出错：", error);
+  (response) => {
+    if (response.status === 200) {
+      return Promise.resolve(response);
     }
+    return Promise.reject(response);
+  },
+  // 服务器状态码不是200的情况
+  (error) => {
+    if (error.response.status) {
+      switch (error.response.status) {
+        // 401: 未登录
+        // 未登录则跳转登录页面，并携带当前页面的路径
+        // 在登录成功后返回当前页面，这一步需要在登录页操作。
+        case 401:
+          // router.replace({
+          //   path: "/login",
+          //   query: { redirect: router.currentRoute.fullPath },
+          // });
+          break;
+        // 403 token过期
+        // 登录过期对用户进行提示
+        // 清除本地token和清空vuex中token对象
+        // 跳转登录页面
+        case 403:
+          message.error({
+            content: "登录过期，请重新登录",
+            duration: 1000,
+          });
+          // 清除token
+          localStorage.removeItem("token");
+          // store.commit("loginSuccess", null);
+          // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
+          // setTimeout(() => {
+          //   router.replace({
+          //     path: "/login",
+          //     query: {
+          //       redirect: router.currentRoute.fullPath,
+          //     },
+          //   });
+          // }, 1000);
+          break;
+        // 404请求不存在
+        case 404:
+          message.error({
+            content: "网络请求不存在",
+            duration: 1500,
+          });
+          break;
+        // 其他错误，直接抛出错误提示
+        default:
+          message.error({
+            content: error.response.data.message,
+            duration: 1500,
+          });
+      }
+      return Promise.reject(error.response);
+    }
+  },
 );
-
 /**
- * 封装get方法
- * @param url  请求url
- * @param params  请求参数
- * @returns {Promise}
+ * get方法，对应get请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
  */
-export function get(url, params = {}) {
-    return new Promise((resolve, reject) => {
-        axios.get(url, {
-            params: params
-        }).then((response) => {
-            landing(url, params, response.data);
-            resolve(response.data);
-        })
-            .catch((error) => {
-                reject(error);
-            });
-    });
+function get(url, params?) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(baseURL + url, {
+        params,
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err.data);
+      });
+  });
 }
-
 /**
- * 封装post请求
- * @param url
- * @param data
- * @returns {Promise}
+ * post方法，对应post请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
  */
-
-export function post(url, data) {
-    return new Promise((resolve, reject) => {
-        axios.post(url, data).then(
-            (response) => {
-                //关闭进度条
-                resolve(response.data);
-            },
-            (err) => {
-                reject(err);
-            }
-        );
-    });
+function post(url, params) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(baseURL + url, QS.stringify(params))
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err.data);
+      });
+  });
 }
 
-/**
- * 封装patch请求
- * @param url
- * @param data
- * @returns {Promise}
- */
-export function patch(url, data = {}) {
-    return new Promise((resolve, reject) => {
-        axios.patch(url, data).then(
-            (response) => {
-                resolve(response.data);
-            },
-            (err) => {
-                msag(err);
-                reject(err);
-            }
-        );
-    });
-}
-
-/**
- * 封装put请求
- * @param url
- * @param data
- * @returns {Promise}
- */
-
-export function put(url, data = {}) {
-    return new Promise((resolve, reject) => {
-        axios.put(url, data).then(
-            (response) => {
-                resolve(response.data);
-            },
-            (err) => {
-                msag(err);
-                reject(err);
-            }
-        );
-    });
-}
-
-//统一接口处理，返回数据
-export default function (fecth, url, param) {
-    let _data = "";
-    return new Promise((resolve, reject) => {
-        switch (fecth) {
-            case "get":
-                console.log("begin a get request,and url:", url);
-                get(url, param)
-                    .then(function (response) {
-                        resolve(response);
-                    })
-                    .catch(function (error) {
-                        console.log("get request GET failed.", error);
-                        reject(error);
-                    });
-                break;
-            case "post":
-                post(url, param)
-                    .then(function (response) {
-                        resolve(response);
-                    })
-                    .catch(function (error) {
-                        console.log("get request POST failed.", error);
-                        reject(error);
-                    });
-                break;
-            default:
-                break;
-        }
-    });
-}
-
-//失败提示
-function msag(err) {
-    if (err && err.response) {
-        switch (err.response.status) {
-            case 400:
-                alert(err.response.data.error.details);
-                break;
-            case 401:
-                alert("未授权，请登录");
-                break;
-
-            case 403:
-                alert("拒绝访问");
-                break;
-
-            case 404:
-                alert("请求地址出错");
-                break;
-
-            case 408:
-                alert("请求超时");
-                break;
-
-            case 500:
-                alert("服务器内部错误");
-                break;
-
-            case 501:
-                alert("服务未实现");
-                break;
-
-            case 502:
-                alert("网关错误");
-                break;
-
-            case 503:
-                alert("服务不可用");
-                break;
-
-            case 504:
-                alert("网关超时");
-                break;
-
-            case 505:
-                alert("HTTP版本不受支持");
-                break;
-            default:
-        }
-    }
-}
-
-/**
- * 查看返回的数据
- * @param url
- * @param params
- * @param data
- */
-function landing(url, params, data) {
-    if (data.code === -1) {
-    }
-}
+export default get

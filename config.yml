@@ -27,6 +27,6 @@ offlineTimeout: 90000
 cacheInterval: 10000
 # 测试
 image:
-  - 'https://www.dmoe.cc/random.php'
-  - 'https://service-5z0sdahv-1306777571.sh.apigw.tencentcs.com/release/'
-  - 'https://img.paulzzh.com/touhou/random'
+  - 'https://api.ayao.ltd/PC/api.php'
+  - 'https://api.ayao.ltd/Mobile/api.php'
+  - 'https://api.ayao.ltd/images/api.php'

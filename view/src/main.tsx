@@ -16,5 +16,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <RecoilRoot>
       <App />
     </RecoilRoot>
-  </React.StrictMode>
+  </React.StrictMode>,
 )

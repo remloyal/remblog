@@ -43,6 +43,19 @@
   --pseudo-hover: #ff7242;
   --headline-presudo: #a0a0a0;
   --scrollbar-color: #49b1f5;
+  
+  --bg-color:#fff;
+  --btn-color:#fff;
+  --text-color:#000;
+}
+
+/* 暗黑模式 */
+html.dark {
+  --color:#000;
+  --bg-color:#000;
+  --btn-color:#000;
+  --text-color:#fff;
+  --font-color: #000000;
 }
 
 a {
@@ -92,4 +105,8 @@ button:focus-visible {
 .App {
   width: 100%;
   height: 100%;
+}
+#root{
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
